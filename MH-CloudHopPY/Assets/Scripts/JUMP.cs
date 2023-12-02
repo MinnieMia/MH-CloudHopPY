@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class JUMP : MonoBehaviour
 {
+Rigidbody2D rigidbody;
+
 float jumpForce = 15;
 
 public bool canJump;
@@ -12,12 +14,14 @@ public bool canJump;
     void Start()
     {
        rigidbody = GetComponent<Rigidbody2D>();
+
+       rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 
     // Update is called once per frame
     void Update()
     {
-         if(GetComponent<Rigidbody>().velocity.y > -.01 && GetComponent<Rigidbody>().velocity.y < .01)
+         if(rigidbody.velocity.y > -.01 && rigidbody.velocity.y < .01)
         {
             canJump = true;
         }
@@ -26,9 +30,9 @@ public bool canJump;
             canJump = false;
         }
 
-        if(Input.GetButtonDown("Jump"))
+        if(canJump && Input.GetButtonDown("Jump"))
         {
-            GetComponent<Rigidbody>().AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
     }
 }
